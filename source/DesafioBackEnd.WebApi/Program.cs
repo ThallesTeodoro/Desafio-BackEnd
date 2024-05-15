@@ -10,8 +10,21 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Database");
+
+    options.UseNpgsql(connectionString, sqlAction =>
+    {
+        sqlAction.EnableRetryOnFailure(3);
+
+        sqlAction.CommandTimeout(30);
+    });
+
+    options.EnableDetailedErrors(true);
+
+    options.EnableSensitiveDataLogging(true);
+});
 
 builder.Services.Configure<MessageBrokerSettings>(builder.Configuration.GetSection("MessageBroker"));
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);

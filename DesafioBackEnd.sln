@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8E8D06A1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioBackEnd.UnitTests", "tests\DesafioBackEnd.UnitTests\DesafioBackEnd.UnitTests.csproj", "{1AD7AC76-A300-48DE-B6A4-B4FA57C9454B}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4D74D952-3EB8-4327-BAB0-D0FC92C49AD7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,10 +43,7 @@ Global
 		{1AD7AC76-A300-48DE-B6A4-B4FA57C9454B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AD7AC76-A300-48DE-B6A4-B4FA57C9454B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AD7AC76-A300-48DE-B6A4-B4FA57C9454B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D74D952-3EB8-4327-BAB0-D0FC92C49AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D74D952-3EB8-4327-BAB0-D0FC92C49AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D74D952-3EB8-4327-BAB0-D0FC92C49AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D74D952-3EB8-4327-BAB0-D0FC92C49AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
