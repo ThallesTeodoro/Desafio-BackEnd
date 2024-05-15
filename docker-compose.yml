@@ -14,10 +14,13 @@ services:
       - ASPNETCORE_HTTP_PORTS=5000
     ports:
       - 5000:5000
+    depends_on:
+      - desafiobackend.rabbitmq
 
   desafiobackend.database:
     image: postgres:latest
     container_name: DesafioBackEnd.Database
+    hostname: desafiobackend-database
     environment:
       - POSTGRES_DB=desafiobackend
       - POSTGRES_USER=postgres
