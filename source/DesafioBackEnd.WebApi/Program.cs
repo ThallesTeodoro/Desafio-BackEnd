@@ -8,6 +8,8 @@ using DesafioBackEnd.WebApi.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using DesafioBackEnd.WebApi.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,12 @@ builder.Services.AddCarter();
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,6 +56,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsDockerContainer())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.ApplyMigrations();
+    app.ApplySeeds();
 }
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();

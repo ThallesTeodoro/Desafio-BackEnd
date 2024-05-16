@@ -9,6 +9,12 @@ public interface IRepository<TEntity> where TEntity : class
     Task AddAsync(TEntity entity);
 
     /// <summary>
+    /// Add new entity
+    /// </summary>
+    /// <param name="entity"></param>
+    void Add(TEntity entity);
+
+    /// <summary>
     /// Add many entities
     /// </summary>
     /// <param name="entities">Entities list</param>
@@ -26,6 +32,12 @@ public interface IRepository<TEntity> where TEntity : class
     /// </summary>
     /// <returns>List of entities</returns>
     Task<List<TEntity>> AllAsync();
+
+    /// <summary>
+    /// Get all entities
+    /// </summary>
+    /// <returns>List of entities</returns>
+    List<TEntity> All();
 
     /// <summary>
     /// Update an entity

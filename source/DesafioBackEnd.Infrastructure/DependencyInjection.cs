@@ -1,4 +1,6 @@
+using DesafioBackEnd.Domain.Contracts.Authentication;
 using DesafioBackEnd.Domain.Contracts.Persistence;
+using DesafioBackEnd.Infrastructure.Authentication;
 using DesafioBackEnd.Infrastructure.MessageBroker;
 using DesafioBackEnd.Infrastructure.Persistence.Repositories;
 using MassTransit;
@@ -33,7 +35,13 @@ public static class DependencyInjection
             });
         });
 
+        services.AddScoped<IJwtProvider, JwtProvider>();
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IRoleRepository, RoleRepository>();
+        services.AddTransient<IPermissionRepository, PermissionRepository>();
+        services.AddTransient<IRolePermissionRepository, RolePermissionRepository>();
 
         return services;
     }

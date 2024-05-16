@@ -18,6 +18,11 @@ public abstract class Repository<TEntity> : IRepository<TEntity>
         await _dbContext.AddAsync(entity);
     }
 
+    public void Add(TEntity entity)
+    {
+        _dbContext.Set<TEntity>().Add(entity);
+    }
+
     public async Task AddManyAsync(List<TEntity> entities)
     {
         await _dbContext.AddRangeAsync(entities);
@@ -49,5 +54,12 @@ public abstract class Repository<TEntity> : IRepository<TEntity>
         _dbContext
             .Set<TEntity>()
             .Update(entity);
+    }
+
+    public List<TEntity> All()
+    {
+        return _dbContext
+            .Set<TEntity>()
+            .ToList();
     }
 }
