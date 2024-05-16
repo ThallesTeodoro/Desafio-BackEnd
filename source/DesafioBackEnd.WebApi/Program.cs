@@ -3,6 +3,7 @@ using DesafioBackEnd.Application;
 using DesafioBackEnd.Infrastructure;
 using DesafioBackEnd.Infrastructure.MessageBroker;
 using DesafioBackEnd.Infrastructure.Persistence;
+using DesafioBackEnd.WebApi.Extensions;
 using DesafioBackEnd.WebApi.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -42,10 +43,11 @@ builder.Host.UseSerilog((context, configuration) =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsDockerContainer())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
