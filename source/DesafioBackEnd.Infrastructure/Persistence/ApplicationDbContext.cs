@@ -10,7 +10,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Permission> Permissions { get; set; }
-    public DbSet<Plan> Rent { get; set; }
+    public DbSet<Plan> Plans { get; set; }
     public DbSet<Rent> Rents { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }

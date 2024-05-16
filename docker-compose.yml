@@ -10,7 +10,7 @@ services:
     networks:
       - desafiobackendnetwork
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=5000
     ports:
       - 5000:5000
