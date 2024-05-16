@@ -1,4 +1,6 @@
+using DesafioBackEnd.Domain.Contracts.Persistence;
 using DesafioBackEnd.Infrastructure.MessageBroker;
+using DesafioBackEnd.Infrastructure.Persistence.Repositories;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +32,8 @@ public static class DependencyInjection
                 configurator.ConfigureEndpoints(context);
             });
         });
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
