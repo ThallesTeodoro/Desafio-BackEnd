@@ -1,3 +1,4 @@
+using DesafioBackEnd.Application.Exceptions;
 using DesafioBackEnd.WebApi.Contracts;
 
 namespace DesafioBackEnd.WebApi.Middlewares;
@@ -43,6 +44,8 @@ internal sealed class ExceptionHandlerMiddleware
     private JsonResponse<object, object> GetStatusCodeAndResponse(Exception exception)
         => exception switch
         {
+            NotFoundException => new JsonResponse<object, object>(StatusCodes.Status404NotFound, null, null),
+            ValidationException validationException => new JsonResponse<object, object>(StatusCodes.Status400BadRequest, null, validationException.Errors),
             _ => new JsonResponse<object, object>(StatusCodes.Status500InternalServerError, null, null)
         };
 }
