@@ -17,6 +17,7 @@ public interface IBikeRepository : IRepository<Bike>
     /// </summary>
     /// <param name="page"></param>
     /// <param name="pageSize"></param>
+    /// <param name="plate"></param>
     /// <returns>PaginationDto<Bike></returns>
-    Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize);
+    Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize, string? plate);
 }

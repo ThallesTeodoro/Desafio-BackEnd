@@ -3,4 +3,4 @@ using MediatR;
 
 namespace DesafioBackEnd.Application.Bikes.List;
 
-public record ListBikeQuery(int Page, int PageSize) : IRequest<PaginationResponse<BikeResponse>>;
+public record ListBikeQuery(int Page, int PageSize, string? Plate) : IRequest<PaginationResponse<BikeResponse>>;

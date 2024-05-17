@@ -41,7 +41,7 @@ public class Bike : CarterModule
         [AsParameters] ListBikeRequest request,
         ISender sender)
     {
-        var result = await sender.Send(new ListBikeQuery(request.Page, request.PageSize));
+        var result = await sender.Send(new ListBikeQuery(request.Page, request.PageSize, request.Plate));
         var response = new JsonResponse<PaginationResponse<BikeResponse>, object>(StatusCodes.Status200OK, result, null);
 
         return Results.Ok(response);

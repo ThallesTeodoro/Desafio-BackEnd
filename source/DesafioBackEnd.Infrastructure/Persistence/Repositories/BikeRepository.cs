@@ -18,11 +18,16 @@ public class BikeRepository : Repository<Bike>, IBikeRepository
             .AnyAsync(b => b.Plate.ToUpper() == plate.ToUpper());
     }
 
-    public async Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize)
+    public async Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize, string? plate)
     {
         var query = _dbContext
             .Set<Bike>()
             .AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(plate))
+        {
+            query = query.Where(b => b.Plate.ToUpper().Contains(plate.ToUpper()));
+        }
 
         return new PaginationDto<Bike>()
         {

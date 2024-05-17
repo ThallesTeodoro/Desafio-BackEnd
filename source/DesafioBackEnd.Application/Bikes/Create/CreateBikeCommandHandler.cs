@@ -20,7 +20,7 @@ public class CreateBikeCommandHandler : IRequestHandler<CreateBikeCommand>
         await _bikeRepository.AddAsync(new Bike()
         {
             Id = Guid.NewGuid(),
-            Plate = request.Plate,
+            Plate = request.Plate.ToUpper(),
             Type = request.Type,
             Year = request.Year,
             CreatedAt = DateTime.UtcNow,
