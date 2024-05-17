@@ -1,6 +1,7 @@
 using Carter;
 using DesafioBackEnd.Application.Bikes.Create;
 using DesafioBackEnd.Application.Bikes.List;
+using DesafioBackEnd.Application.Bikes.Remove;
 using DesafioBackEnd.Application.Bikes.Update;
 using DesafioBackEnd.Application.Common;
 using DesafioBackEnd.Domain.Enums;
@@ -34,7 +35,7 @@ public class Bike : CarterModule
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status500InternalServerError)
-            .Produces<JsonResponse<object, object>>(StatusCodes.Status201Created)
+            .Produces(StatusCodes.Status201Created)
             .WithOpenApi();
 
         app.MapPatch("/{bikeId}", UpdateBike)
@@ -42,8 +43,18 @@ public class Bike : CarterModule
             .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<BikeResponse, object>>(StatusCodes.Status200OK)
+            .WithOpenApi();
+
+        app.MapDelete("/{bikeId}", RemoveBike)
+            .RequireAuthorization(PermissionEnum.ManageBikes)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces(StatusCodes.Status200OK)
             .WithOpenApi();
     }
 
@@ -80,5 +91,12 @@ public class Bike : CarterModule
         var response = new JsonResponse<BikeResponse, object>(StatusCodes.Status200OK, bike, null);
 
         return Results.Ok(response);
+    }
+
+    private async Task<IResult> RemoveBike(Guid bikeId, ISender sender)
+    {
+        await sender.Send(new RemoveBikeCommand(bikeId));
+
+        return Results.Ok();
     }
 }

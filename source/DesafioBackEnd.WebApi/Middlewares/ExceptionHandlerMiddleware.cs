@@ -45,6 +45,7 @@ internal sealed class ExceptionHandlerMiddleware
         => exception switch
         {
             NotFoundException => new JsonResponse<object, object>(StatusCodes.Status404NotFound, null, null),
+            ForbiddenException => new JsonResponse<object, object>(StatusCodes.Status403Forbidden, null, null),
             ValidationException validationException => new JsonResponse<object, object>(StatusCodes.Status400BadRequest, null, validationException.Errors),
             _ => new JsonResponse<object, object>(StatusCodes.Status500InternalServerError, null, null)
         };
