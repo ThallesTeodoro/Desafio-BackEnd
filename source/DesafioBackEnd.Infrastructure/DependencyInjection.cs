@@ -42,6 +42,7 @@ public static class DependencyInjection
         services.AddTransient<IRoleRepository, RoleRepository>();
         services.AddTransient<IPermissionRepository, PermissionRepository>();
         services.AddTransient<IRolePermissionRepository, RolePermissionRepository>();
+        services.AddTransient<IBikeRepository, BikeRepository>();
 
         return services;
     }

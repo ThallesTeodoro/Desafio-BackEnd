@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DesafioBackEnd.Application.Exceptions;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -10,8 +5,7 @@ using MediatR;
 namespace DesafioBackEnd.Application.Behaviors;
 
 internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : class, IRequest<TResponse>
-    where TResponse : class
+    where TRequest : IBaseRequest
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
