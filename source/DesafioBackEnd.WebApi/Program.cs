@@ -10,6 +10,9 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DesafioBackEnd.WebApi.Options;
+using DesafioBackEnd.Domain.Enums;
+using DesafioBackEnd.WebApi.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +51,14 @@ builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
 
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy(PermissionEnum.ManageBikes, p => p.AddRequirements(new UserPermissionRequirement(PermissionEnum.ManageBikes)));
+    o.AddPolicy(PermissionEnum.DeliverymanRegister, p => p.AddRequirements(new UserPermissionRequirement(PermissionEnum.DeliverymanRegister)));
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, UserPermissionAuthorizationHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,6 +71,10 @@ if (app.Environment.IsDevelopment() || app.Environment.IsDockerContainer())
 }
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapCarter();
 

@@ -26,4 +26,16 @@ public class UserRepository : Repository<User>, IUserRepository
             .Where(u => u.Email == email)
             .FirstOrDefault();
     }
+
+    public User? FindByIdWithUserRoles(Guid id)
+    {
+        return _dbContext
+            .Set<User>()
+            .Include(ur => ur.Role)
+                .ThenInclude(r => r.RolePermissions)
+                    .ThenInclude(rp => rp.Permission)
+            .Where(u => u.Id == id)
+            .AsSplitQuery()
+            .FirstOrDefault();
+    }
 }

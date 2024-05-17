@@ -17,4 +17,11 @@ public interface IUserRepository : IRepository<User>
     /// <param name="email"></param>
     /// <returns>User | null</returns>
     User? FindByEmail(string email);
+
+    /// <summary>
+    /// Get entity by id with relationship
+    /// </summary>
+    /// <param name="id">User id</param>
+    /// <returns>User instance</returns>
+    User? FindByIdWithUserRoles(Guid id);
 }
