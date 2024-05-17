@@ -9,16 +9,15 @@ public class CreateBikeCommandValidator : AbstractValidator<CreateBikeCommand>
     public CreateBikeCommandValidator(IBikeRepository bikeRepository)
     {
         RuleFor(c => c.Year)
-            .NotEmpty()
-            .WithMessage(ValidationMessages.RequiredField(nameof(CreateBikeCommand.Year)));
+            .NotEmpty();
 
         RuleFor(c => c.Type)
             .NotEmpty()
-            .WithMessage(ValidationMessages.RequiredField(nameof(CreateBikeCommand.Type)));
+            .MaximumLength(100);
 
         RuleFor(c => c.Plate)
             .NotEmpty()
-            .WithMessage(ValidationMessages.RequiredField(nameof(CreateBikeCommand.Plate)))
+            .MaximumLength(7)
             .MustAsync(async (plate, _) => await bikeRepository.BikePlateIsUniqueAsync(plate))
             .WithMessage(ValidationMessages.ExistenteBikePlate());
     }
