@@ -18,6 +18,13 @@ public class BikeRepository : Repository<Bike>, IBikeRepository
             .AnyAsync(b => b.Plate.ToUpper() == plate.ToUpper());
     }
 
+    public async Task<bool> BikePlateIsUniqueAsync(string plate, Guid excludeId)
+    {
+        return !await _dbContext
+            .Set<Bike>()
+            .AnyAsync(b => b.Id != excludeId && b.Plate.ToUpper() == plate.ToUpper());
+    }
+
     public async Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize, string? plate)
     {
         var query = _dbContext

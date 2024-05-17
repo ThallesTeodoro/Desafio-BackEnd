@@ -13,6 +13,14 @@ public interface IBikeRepository : IRepository<Bike>
     Task<bool> BikePlateIsUniqueAsync(string plate);
 
     /// <summary>
+    /// Check if bike plate is unique
+    /// </summary>
+    /// <param name="plate"></param>
+    /// <param name="excludeId"></param>
+    /// <returns>bool</returns>
+    Task<bool> BikePlateIsUniqueAsync(string plate, Guid excludeId);
+
+    /// <summary>
     /// List bikes paginated
     /// </summary>
     /// <param name="page"></param>

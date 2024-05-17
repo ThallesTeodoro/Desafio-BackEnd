@@ -1,6 +1,7 @@
 using Carter;
 using DesafioBackEnd.Application.Bikes.Create;
 using DesafioBackEnd.Application.Bikes.List;
+using DesafioBackEnd.Application.Bikes.Update;
 using DesafioBackEnd.Application.Common;
 using DesafioBackEnd.Domain.Enums;
 using DesafioBackEnd.WebApi.Contracts;
@@ -35,6 +36,15 @@ public class Bike : CarterModule
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<object, object>>(StatusCodes.Status201Created)
             .WithOpenApi();
+
+        app.MapPatch("/{bikeId}", UpdateBike)
+            .RequireAuthorization(PermissionEnum.ManageBikes)
+            .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<BikeResponse, object>>(StatusCodes.Status200OK)
+            .WithOpenApi();
     }
 
     private async Task<IResult> ListBikes(
@@ -58,5 +68,17 @@ public class Bike : CarterModule
         ));
 
         return Results.Created();
+    }
+
+    private async Task<IResult> UpdateBike(
+        Guid bikeId,
+        [FromBody] UpdateBikeRequest request,
+        ISender sender)
+    {
+        var bike = await sender.Send(new UpdateBikeCommand(bikeId, request.Plate));
+
+        var response = new JsonResponse<BikeResponse, object>(StatusCodes.Status200OK, bike, null);
+
+        return Results.Ok(response);
     }
 }
