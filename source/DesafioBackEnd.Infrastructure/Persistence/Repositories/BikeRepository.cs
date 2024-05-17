@@ -1,4 +1,5 @@
 using DesafioBackEnd.Domain.Contracts.Persistence;
+using DesafioBackEnd.Domain.Dtos;
 using DesafioBackEnd.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,5 +16,24 @@ public class BikeRepository : Repository<Bike>, IBikeRepository
         return !await _dbContext
             .Set<Bike>()
             .AnyAsync(b => b.Plate.ToUpper() == plate.ToUpper());
+    }
+
+    public async Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize)
+    {
+        var query = _dbContext
+            .Set<Bike>()
+            .AsNoTracking();
+
+        return new PaginationDto<Bike>()
+        {
+            CurrentPage = page,
+            PerPage = pageSize,
+            Total = await query.CountAsync(),
+            Items = await query
+                .OrderBy(b => b.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(),
+        };
     }
 }

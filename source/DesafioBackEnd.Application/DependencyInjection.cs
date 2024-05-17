@@ -1,5 +1,6 @@
 using AutoMapper;
 using DesafioBackEnd.Application.Behaviors;
+using DesafioBackEnd.Application.Mappers;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,8 @@ public static class DependencyInjection
 
         var autoMapperConfiguration = new MapperConfiguration(configuration =>
         {
-            // add map configuration here
+            configuration.AddProfile<CommonMapperProfile>();
+            configuration.AddProfile<BikeMapperProfile>();
         });
 
         var mapper = autoMapperConfiguration.CreateMapper();
