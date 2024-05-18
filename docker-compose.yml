@@ -49,6 +49,18 @@ services:
     networks:
       - desafiobackendnetwork
 
+  desafiobackend.blob-storage:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    container_name: DesafioBackEnd.BlobStorage
+    hostname: desafiobackend-blob-storage
+    volumes:
+      - ./.containers/blob-storage/data:/data
+    ports:
+      - 10000:10000
+    command: "azurite-blob --blobHost 0.0.0.0 -l /data"
+    networks:
+      - desafiobackendnetwork
+
 networks:
   desafiobackendnetwork:
     name: desafiobackendnetwork

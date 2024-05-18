@@ -1,9 +1,13 @@
+using Azure.Storage.Blobs;
 using DesafioBackEnd.Domain.Contracts.Authentication;
 using DesafioBackEnd.Domain.Contracts.Persistence;
+using DesafioBackEnd.Domain.Contracts.Services;
 using DesafioBackEnd.Infrastructure.Authentication;
 using DesafioBackEnd.Infrastructure.MessageBroker;
 using DesafioBackEnd.Infrastructure.Persistence.Repositories;
+using DesafioBackEnd.Infrastructure.Services;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DesafioBackEnd.Infrastructure;
@@ -15,7 +19,7 @@ public static class DependencyInjection
     /// </summary>
     /// <param name="services"></param>
     /// <returns>IServiceCollection</returns>
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddMassTransit(bussConfigurator =>
         {
@@ -36,14 +40,17 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IJwtProvider, JwtProvider>();
-
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IRoleRepository, RoleRepository>();
         services.AddTransient<IPermissionRepository, PermissionRepository>();
         services.AddTransient<IRolePermissionRepository, RolePermissionRepository>();
         services.AddTransient<IBikeRepository, BikeRepository>();
         services.AddTransient<IRentRepository, RentRepository>();
+
+        services.AddSingleton<IStorageService, BlobStorage>();
+        services.AddSingleton(_ => new BlobServiceClient(configuration.GetConnectionString("BlobStorage")));
 
         return services;
     }
