@@ -10,7 +10,7 @@ public interface IStorageService
     /// <param name="fileExtension"></param>
     /// <param name="fileContentType"></param>
     /// <returns>File name</returns>
-    Task<string?> UploadFileAsync(Stream file, string prefix, string fileExtension, string fileContentType);
+    Task<string> UploadFileAsync(Stream file, string prefix, string fileExtension, string fileContentType);
 
     /// <summary>
     /// Delete file in storage if exists

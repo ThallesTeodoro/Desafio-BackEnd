@@ -48,6 +48,7 @@ public static class DependencyInjection
         services.AddTransient<IRolePermissionRepository, RolePermissionRepository>();
         services.AddTransient<IBikeRepository, BikeRepository>();
         services.AddTransient<IRentRepository, RentRepository>();
+        services.AddTransient<IDeliverymanRepository, DeliverymanRepository>();
 
         services.AddSingleton<IStorageService, BlobStorage>();
         services.AddSingleton(_ => new BlobServiceClient(configuration.GetConnectionString("BlobStorage")));

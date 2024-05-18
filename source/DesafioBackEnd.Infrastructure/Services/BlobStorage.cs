@@ -14,7 +14,7 @@ public class BlobStorage : IStorageService
         _blobServiceClient = blobServiceClient;
     }
 
-    public async Task<string?> UploadFileAsync(Stream file, string prefix, string fileExtension, string fileContentType)
+    public async Task<string> UploadFileAsync(Stream file, string prefix, string fileExtension, string fileContentType)
     {
         BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
 
@@ -23,7 +23,7 @@ public class BlobStorage : IStorageService
             containerClient = await _blobServiceClient.CreateBlobContainerAsync(_containerName, PublicAccessType.BlobContainer);
         }
 
-        var fileName = $"{prefix}/{Guid.NewGuid()}.{fileExtension}";
+        var fileName = $"{prefix}/{Guid.NewGuid()}{fileExtension}";
 
         BlobClient blobClient = containerClient.GetBlobClient(fileName);
 

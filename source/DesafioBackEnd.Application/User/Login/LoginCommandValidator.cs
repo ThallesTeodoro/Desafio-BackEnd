@@ -9,8 +9,6 @@ public sealed class LoginCommandValidator : AbstractValidator<LoginCommand>
     {
         RuleFor(c => c.Email)
             .NotEmpty()
-            .WithMessage(ValidationMessages.RequiredField(nameof(LoginCommand.Email)))
-            .EmailAddress()
-            .WithMessage(ValidationMessages.InvalidEmailAddress(nameof(LoginCommand.Email)));
+            .EmailAddress();
     }
 }

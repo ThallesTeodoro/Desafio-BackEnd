@@ -9,5 +9,5 @@ public class DeliveryDetail : BaseEntity
     public required short CnhType { get; set; }
     public required string CnhImageName { get; set; }
 
-    public  required User User { get; set; }
+    public User User { get; set; }
 }
