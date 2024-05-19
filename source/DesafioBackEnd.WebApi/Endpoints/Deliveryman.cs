@@ -1,5 +1,6 @@
 using Carter;
 using DesafioBackEnd.Application.Deliveryman.Register;
+using DesafioBackEnd.Application.Deliveryman.Update;
 using DesafioBackEnd.Domain.Enums;
 using DesafioBackEnd.WebApi.Contracts;
 using MediatR;
@@ -20,6 +21,16 @@ public class Deliveryman : CarterModule
             .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
+            .DisableAntiforgery();
+
+        app.MapPatch("/{userId}", UpdateDeliverymanCnh)
+            .RequireAuthorization(PermissionEnum.DeliverymanRegister)
+            .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
             .DisableAntiforgery();
@@ -45,5 +56,15 @@ public class Deliveryman : CarterModule
         httpContext.Response.StatusCode = response.StatusCode;
 
         return Results.Ok(response);
+    }
+
+    private async Task<IResult> UpdateDeliverymanCnh(
+        Guid userId,
+        IFormFile cnhImage,
+        ISender sender)
+    {
+        await sender.Send(new UpdateDeliverymanCommand(userId, cnhImage));
+
+        return Results.Ok();
     }
 }

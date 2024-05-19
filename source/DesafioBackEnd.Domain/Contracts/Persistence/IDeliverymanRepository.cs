@@ -17,4 +17,11 @@ public interface IDeliverymanRepository : IRepository<DeliveryDetail>
     /// <param name="cnh"></param>
     /// <returns>bool</returns>
     Task<bool> CnhIsUniqueAsync(string cnh);
+
+    /// <summary>
+    /// Find deliveryman detail by user id
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>DeliveryDetail</returns>
+    Task<DeliveryDetail?> FindByUserIdAsync(Guid userId);
 }

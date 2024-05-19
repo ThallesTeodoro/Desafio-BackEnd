@@ -23,4 +23,11 @@ public class DeliverymanRepository : Repository<DeliveryDetail>, IDeliverymanRep
             .Set<DeliveryDetail>()
             .AnyAsync(d => d.Cnpj == cnpj);
     }
+
+    public async Task<DeliveryDetail?> FindByUserIdAsync(Guid userId)
+    {
+        return await _dbContext
+            .Set<DeliveryDetail>()
+            .FirstOrDefaultAsync(d => d.UserId == userId);
+    }
 }
