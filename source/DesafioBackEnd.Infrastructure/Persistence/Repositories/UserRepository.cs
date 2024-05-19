@@ -38,4 +38,14 @@ public class UserRepository : Repository<User>, IUserRepository
             .AsSplitQuery()
             .FirstOrDefault();
     }
+
+    public async Task<User?> FindWithRelationshipAsync(Guid id)
+    {
+        return await _dbContext
+            .Set<User>()
+            .Include(u => u.Role)
+            .Include(u => u.DeliveryDetail)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(u => u.Id == id);
+    }
 }

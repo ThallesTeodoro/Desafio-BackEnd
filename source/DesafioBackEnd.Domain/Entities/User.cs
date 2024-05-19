@@ -7,4 +7,5 @@ public class User : BaseEntity
     public required string Email { get; set; }
 
     public Role Role { get; set; }
+    public DeliveryDetail DeliveryDetail { get; set; }
 }

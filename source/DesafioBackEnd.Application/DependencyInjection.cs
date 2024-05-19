@@ -23,6 +23,7 @@ public static class DependencyInjection
         {
             configuration.AddProfile<CommonMapperProfile>();
             configuration.AddProfile<BikeMapperProfile>();
+            configuration.AddProfile<UserMapperProfile>();
         });
 
         var mapper = autoMapperConfiguration.CreateMapper();

@@ -24,4 +24,11 @@ public interface IUserRepository : IRepository<User>
     /// <param name="id">User id</param>
     /// <returns>User instance</returns>
     User? FindByIdWithUserRoles(Guid id);
+
+    /// <summary>
+    /// Get entity by id with relationship
+    /// </summary>
+    /// <param name="id">User id</param>
+    /// <returns>User instance</returns>
+    Task<User?> FindWithRelationshipAsync(Guid id);
 }
