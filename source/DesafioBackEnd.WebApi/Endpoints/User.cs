@@ -14,17 +14,20 @@ public class User : CarterModule
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/{userId}", async (Guid userId, ISender sender) => {
-                var result = await sender.Send(new GetUserQuery(userId));
-
-                var response = new JsonResponse<UserResponse, object>(StatusCodes.Status200OK, result, null);
-
-                return Results.Ok(response);
-            })
+        app.MapGet("/{userId}", GetUser)
             .RequireAuthorization()
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<UserResponse, object>>(StatusCodes.Status201Created);
+    }
+
+    private async Task<IResult> GetUser(Guid userId, ISender sender)
+    {
+        var result = await sender.Send(new GetUserQuery(userId));
+
+        var response = new JsonResponse<UserResponse, object>(StatusCodes.Status200OK, result, null);
+
+        return Results.Ok(response);
     }
 }

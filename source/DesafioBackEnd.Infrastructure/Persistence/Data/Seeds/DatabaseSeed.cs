@@ -18,5 +18,8 @@ public static class DatabaseSeed
 
         UserSeed.Run(service);
         unitOfWork.SaveChanges();
+
+        PlanSeed.Run(service);
+        unitOfWork.SaveChanges();
     }
 }
