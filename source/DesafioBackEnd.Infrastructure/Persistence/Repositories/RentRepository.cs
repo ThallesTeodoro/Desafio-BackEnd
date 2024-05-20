@@ -26,6 +26,7 @@ public class RentRepository : Repository<Rent>, IRentRepository
             .Include(r => r.Bike)
             .Include(r => r.User)
                 .ThenInclude(r => r.DeliveryDetail)
+            .AsSingleQuery()
             .FirstOrDefaultAsync(r => r.UserId == userId && r.Status == RentStatusEnum.Leased);
     }
 

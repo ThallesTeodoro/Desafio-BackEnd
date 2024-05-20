@@ -57,6 +57,7 @@ public class UserRepository : Repository<User>, IUserRepository
             .Include(u => u.DeliveryDetail)
             .Include(u => u.Rents)
             .Include(u => u.Orders)
+            .AsSingleQuery()
             .Where(u =>
                 u.DeliveryDetail != null &&
                 u.Rents.Any(r => r.Status == RentStatusEnum.Leased) &&

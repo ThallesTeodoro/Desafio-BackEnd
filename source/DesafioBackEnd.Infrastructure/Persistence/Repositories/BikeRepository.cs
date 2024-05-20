@@ -31,6 +31,7 @@ public class BikeRepository : Repository<Bike>, IBikeRepository
         return await _dbContext
             .Set<Bike>()
             .Include(b => b.Rents)
+            .AsSingleQuery()
             .FirstOrDefaultAsync(b => b.Rents == null || !b.Rents.Any(r => r.Status == RentStatusEnum.Leased));
     }
 
