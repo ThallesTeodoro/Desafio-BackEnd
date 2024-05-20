@@ -58,6 +58,7 @@ public class RegisterDeliverymanCommandHandler : IRequestHandler<RegisterDeliver
             CnhType = CnhTypeEnum.GetCnhType(request.CnhType),
             Cnpj = Regex.Replace(request.Cnpj, @"[^\d]", string.Empty),
             CnhImageName = fileName,
+            Birthdate = request.Birthdate,
         };
 
         await _userRepository.AddAsync(user);
