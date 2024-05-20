@@ -1,5 +1,6 @@
 using DesafioBackEnd.Domain.Contracts.Persistence;
 using DesafioBackEnd.Domain.Entities;
+using DesafioBackEnd.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace DesafioBackEnd.Infrastructure.Persistence.Repositories;
@@ -47,5 +48,19 @@ public class UserRepository : Repository<User>, IUserRepository
             .Include(u => u.DeliveryDetail)
             .AsSplitQuery()
             .FirstOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<List<User>> GetAvailableDeliveryman()
+    {
+        return await _dbContext
+            .Set<User>()
+            .Include(u => u.DeliveryDetail)
+            .Include(u => u.Rents)
+            .Include(u => u.Orders)
+            .Where(u =>
+                u.DeliveryDetail != null &&
+                u.Rents.Any(r => r.Status == RentStatusEnum.Leased) &&
+                !u.Orders.Any(o => o.Status == OrderStatusEnum.Accepted))
+            .ToListAsync();
     }
 }

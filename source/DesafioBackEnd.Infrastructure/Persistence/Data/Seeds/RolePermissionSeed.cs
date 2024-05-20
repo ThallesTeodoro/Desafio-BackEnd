@@ -25,6 +25,7 @@ public static class RolePermissionSeed
                 .Where(p => new List<string>()
                     {
                         PermissionEnum.ManageBikes,
+                        PermissionEnum.RegisterOrder,
                     }
                     .Contains(p.Name))
                 .Select(p => p.Id)

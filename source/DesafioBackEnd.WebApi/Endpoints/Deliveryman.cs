@@ -26,7 +26,8 @@ public class Deliveryman : CarterModule
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .WithOpenApi();
 
         app.MapPatch("/{userId}", UpdateDeliverymanCnh)
             .RequireAuthorization(PermissionEnum.DeliverymanRegister)
@@ -36,7 +37,8 @@ public class Deliveryman : CarterModule
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .WithOpenApi();
 
         app.MapPost("/rent-bike", RentBike)
             .RequireAuthorization(PermissionEnum.BikeRent)
@@ -45,7 +47,8 @@ public class Deliveryman : CarterModule
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
-            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created);
+            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
+            .WithOpenApi();
 
         app.MapPost("/informe-return-date", InformReturnDate)
             .RequireAuthorization(PermissionEnum.BikeRent)
@@ -54,7 +57,8 @@ public class Deliveryman : CarterModule
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
-            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created);
+            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
+            .WithOpenApi();
     }
 
     private async Task<IResult> RegisterDeliveryman(

@@ -8,4 +8,5 @@ public class Order : BaseEntity
     public required short Status { get; set; }
 
     public List<Notification> Notifications { get; } = new List<Notification>();
+    public User User { get; set; }
 }

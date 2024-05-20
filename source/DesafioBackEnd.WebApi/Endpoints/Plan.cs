@@ -19,7 +19,8 @@ public class Plan : CarterModule
             .RequireAuthorization()
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status500InternalServerError)
-            .Produces<JsonResponse<List<PlanResponse>, object>>(StatusCodes.Status200OK);
+            .Produces<JsonResponse<List<PlanResponse>, object>>(StatusCodes.Status200OK)
+            .WithOpenApi();
     }
 
     private async Task<IResult> ListPlan(ISender sender)

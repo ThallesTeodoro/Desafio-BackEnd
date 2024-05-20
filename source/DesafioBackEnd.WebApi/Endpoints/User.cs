@@ -19,7 +19,8 @@ public class User : CarterModule
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
-            .Produces<JsonResponse<UserResponse, object>>(StatusCodes.Status201Created);
+            .Produces<JsonResponse<UserResponse, object>>(StatusCodes.Status201Created)
+            .WithOpenApi();
     }
 
     private async Task<IResult> GetUser(Guid userId, ISender sender)

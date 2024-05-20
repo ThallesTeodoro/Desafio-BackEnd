@@ -31,4 +31,10 @@ public interface IUserRepository : IRepository<User>
     /// <param name="id">User id</param>
     /// <returns>User instance</returns>
     Task<User?> FindWithRelationshipAsync(Guid id);
+
+    /// <summary>
+    /// Get available deliveryman
+    /// </summary>
+    /// <returns>List<User></returns>
+    Task<List<User>> GetAvailableDeliveryman();
 }

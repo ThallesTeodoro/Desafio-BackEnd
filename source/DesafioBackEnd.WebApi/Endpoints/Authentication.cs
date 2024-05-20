@@ -15,7 +15,12 @@ public class Authentication : CarterModule
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/", Login);
+        app.MapPost("/", Login)
+            .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<LoginResponse, object>>(StatusCodes.Status200OK)
+            .WithOpenApi();
     }
 
     /// <summary>

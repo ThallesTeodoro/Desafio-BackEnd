@@ -35,6 +35,16 @@ public class ReturnRentCommandHandler : IRequestHandler<ReturnRentCommand, Retur
             throw new ForbiddenException("There is no current rent related to this user.");
         }
 
+        decimal total = CalculateTotalToPay(rent, returnRentDay);
+
+        return new ReturnRentResponse()
+        {
+            TotalRentValue = total,
+        };
+    }
+
+    private static decimal CalculateTotalToPay(Domain.Entities.Rent rent, DateOnly returnRentDay)
+    {
         decimal total;
 
         if (returnRentDay == rent.EndDay)
@@ -60,9 +70,6 @@ public class ReturnRentCommandHandler : IRequestHandler<ReturnRentCommand, Retur
             total = dailyValue + percent;
         }
 
-        return new ReturnRentResponse()
-        {
-            TotalRentValue = total,
-        };
+        return total;
     }
 }

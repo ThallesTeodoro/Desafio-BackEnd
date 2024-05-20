@@ -5,6 +5,6 @@ public class Notification
     public Guid UserId { get; set; }
     public Guid OrderId { get; set; }
 
-    public  required User User { get; set; }
-    public  required Order Order { get; set; }
+    public User User { get; set; }
+    public Order Order { get; set; }
 }

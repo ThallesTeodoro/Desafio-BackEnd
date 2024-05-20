@@ -1,11 +1,13 @@
 using Azure.Storage.Blobs;
 using DesafioBackEnd.Domain.Contracts.Authentication;
+using DesafioBackEnd.Domain.Contracts.EventBus;
 using DesafioBackEnd.Domain.Contracts.Persistence;
 using DesafioBackEnd.Domain.Contracts.Services;
 using DesafioBackEnd.Infrastructure.Authentication;
 using DesafioBackEnd.Infrastructure.MessageBroker;
 using DesafioBackEnd.Infrastructure.Persistence.Repositories;
 using DesafioBackEnd.Infrastructure.Services;
+using DesafioBackEnd.Infrastructure.Services.Queue;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +26,8 @@ public static class DependencyInjection
         services.AddMassTransit(bussConfigurator =>
         {
             bussConfigurator.SetKebabCaseEndpointNameFormatter();
+
+            bussConfigurator.AddConsumer<NotificationOrderConsumer>();
 
             bussConfigurator.UsingRabbitMq((context, configurator) =>
             {
@@ -50,9 +54,13 @@ public static class DependencyInjection
         services.AddTransient<IRentRepository, RentRepository>();
         services.AddTransient<IDeliverymanRepository, DeliverymanRepository>();
         services.AddTransient<IPlanRepository, PlanRepository>();
+        services.AddTransient<IOrderRepository, OrderRepository>();
+        services.AddTransient<INotificationRepository, NotificationRepository>();
 
         services.AddSingleton<IStorageService, BlobStorage>();
         services.AddSingleton(_ => new BlobServiceClient(configuration.GetConnectionString("BlobStorage")));
+
+        services.AddTransient<IEventBus, EventBus>();
 
         return services;
     }
