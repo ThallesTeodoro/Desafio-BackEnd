@@ -6,6 +6,8 @@ public static class PermissionEnum
     public const string DeliverymanRegister = "deliveryman-reg";
     public const string BikeRent = "bike-rent";
     public const string RegisterOrder = "register-order";
+    public const string AcceptOrder = "accept-order";
+    public const string MakeOrderDelivery = "make-delivery";
 
     public static List<string> List()
     {
@@ -15,6 +17,8 @@ public static class PermissionEnum
             DeliverymanRegister,
             BikeRent,
             RegisterOrder,
+            AcceptOrder,
+            MakeOrderDelivery,
         };
     }
 }

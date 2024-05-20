@@ -57,6 +57,7 @@ builder.Services.AddAuthorization(o =>
     o.AddPolicy(PermissionEnum.DeliverymanRegister, p => p.AddRequirements(new UserPermissionRequirement(PermissionEnum.DeliverymanRegister)));
     o.AddPolicy(PermissionEnum.BikeRent, p => p.AddRequirements(new UserPermissionRequirement(PermissionEnum.BikeRent)));
     o.AddPolicy(PermissionEnum.RegisterOrder, p => p.AddRequirements(new UserPermissionRequirement(PermissionEnum.RegisterOrder)));
+    o.AddPolicy(PermissionEnum.AcceptOrder, p => p.AddRequirements(new UserPermissionRequirement(PermissionEnum.AcceptOrder)));
 });
 
 builder.Services.AddSingleton<IAuthorizationHandler, UserPermissionAuthorizationHandler>();

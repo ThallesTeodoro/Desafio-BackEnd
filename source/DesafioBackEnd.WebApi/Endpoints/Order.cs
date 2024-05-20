@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using Carter;
+using DesafioBackEnd.Application.Order.AcceptOrder;
 using DesafioBackEnd.Application.Order.ListDeliverymen;
 using DesafioBackEnd.Application.Order.RegisterOrder;
 using DesafioBackEnd.Domain.Enums;
@@ -33,6 +35,14 @@ public class Order : CarterModule
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<ListDeliverymanOrderResponse, object>>(StatusCodes.Status200OK)
             .WithOpenApi();
+
+        app.MapPost("/accept-order/{orderId}", AcceptOrder)
+            .RequireAuthorization(PermissionEnum.AcceptOrder)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<ListDeliverymanOrderResponse, object>>(StatusCodes.Status200OK)
+            .WithOpenApi();
     }
 
     private async Task<IResult> RegisterOrder(
@@ -58,5 +68,22 @@ public class Order : CarterModule
         var response = new JsonResponse<ListDeliverymanOrderResponse, object>(StatusCodes.Status200OK, result, null);
 
         return Results.Ok(response);
+    }
+
+    private async Task<IResult> AcceptOrder(
+        Guid orderId,
+        ISender sender,
+        HttpContext httpContext)
+    {
+        var authUserId = httpContext
+            .User
+            .Claims
+            .Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .First()
+            .Value;
+
+        await sender.Send(new AcceptOrderCommand(orderId, Guid.Parse(authUserId)));
+
+        return Results.Ok();
     }
 }

@@ -41,6 +41,8 @@ public static class RolePermissionSeed
                     {
                         PermissionEnum.DeliverymanRegister,
                         PermissionEnum.BikeRent,
+                        PermissionEnum.AcceptOrder,
+                        PermissionEnum.MakeOrderDelivery,
                     }
                     .Contains(p.Name))
                 .Select(p => p.Id)
