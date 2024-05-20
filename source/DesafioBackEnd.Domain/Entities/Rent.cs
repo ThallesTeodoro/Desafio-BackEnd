@@ -9,7 +9,7 @@ public class Rent : BaseEntity
     public DateOnly EndDay { get; set; }
     public DateOnly PrevDay { get; set; }
 
-    public  required Bike Bike { get; set; }
-    public  required Plan Plan { get; set; }
-    public  required User User { get; set; }
+    public Bike Bike { get; set; }
+    public Plan Plan { get; set; }
+    public User User { get; set; }
 }

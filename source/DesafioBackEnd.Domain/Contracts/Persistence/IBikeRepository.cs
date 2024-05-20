@@ -28,4 +28,10 @@ public interface IBikeRepository : IRepository<Bike>
     /// <param name="plate"></param>
     /// <returns>PaginationDto<Bike></returns>
     Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize, string? plate);
+
+    /// <summary>
+    /// Find available bike to rent
+    /// </summary>
+    /// <returns>Bike | null</returns>
+    Task<Bike?> FindAvailableBikeToRentAsync();
 }

@@ -12,6 +12,7 @@ public static class PermissionEnum
         {
             ManageBikes,
             DeliverymanRegister,
+            BikeRent,
         };
     }
 }

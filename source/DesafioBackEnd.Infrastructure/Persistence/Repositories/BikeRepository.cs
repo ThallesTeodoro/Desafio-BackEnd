@@ -25,6 +25,14 @@ public class BikeRepository : Repository<Bike>, IBikeRepository
             .AnyAsync(b => b.Id != excludeId && b.Plate.ToUpper() == plate.ToUpper());
     }
 
+    public async Task<Bike?> FindAvailableBikeToRentAsync()
+    {
+        return await _dbContext
+            .Set<Bike>()
+            .Include(b => b.Rents)
+            .FirstOrDefaultAsync(b => !b.Rents.Any(r => r.EndDay < DateOnly.FromDateTime(DateTime.Now.AddDays(-1))));
+    }
+
     public async Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize, string? plate)
     {
         var query = _dbContext

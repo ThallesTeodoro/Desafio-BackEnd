@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using Carter;
 using DesafioBackEnd.Application.Deliveryman.Register;
+using DesafioBackEnd.Application.Deliveryman.Rent;
 using DesafioBackEnd.Application.Deliveryman.Update;
 using DesafioBackEnd.Domain.Enums;
 using DesafioBackEnd.WebApi.Contracts;
@@ -34,6 +36,15 @@ public class Deliveryman : CarterModule
             .Produces(StatusCodes.Status500InternalServerError)
             .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
             .DisableAntiforgery();
+
+        app.MapPost("/rent-bike", RentBike)
+            .RequireAuthorization(PermissionEnum.BikeRent)
+            .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created);
     }
 
     private async Task<IResult> RegisterDeliveryman(
@@ -66,5 +77,22 @@ public class Deliveryman : CarterModule
         await sender.Send(new UpdateDeliverymanCommand(userId, cnhImage));
 
         return Results.Ok();
+    }
+
+    private async Task<IResult> RentBike(
+        [FromBody] RentRequest request,
+        ISender sender,
+        HttpContext httpContext)
+    {
+        var authUserId = httpContext
+            .User
+            .Claims
+            .Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .First()
+            .Value;
+
+        await sender.Send(new RentCommand(Guid.Parse(authUserId), request.StartDay, request.EndDay));
+
+        return Results.Created();
     }
 }

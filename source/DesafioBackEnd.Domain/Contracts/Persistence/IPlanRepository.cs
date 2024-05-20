@@ -9,4 +9,11 @@ public interface IPlanRepository : IRepository<Plan>
     /// </summary>
     /// <returns>int</returns>
     int Count();
+
+    /// <summary>
+    /// Get plan by days
+    /// </summary>
+    /// <param name="days"></param>
+    /// <returns>Plan</returns>
+    Task<Plan> GetPlanByDaysAsync(int days);
 }
