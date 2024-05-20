@@ -18,6 +18,17 @@ public class RentRepository : Repository<Rent>, IRentRepository
             .AnyAsync(r => r.BikeId == bikeId);
     }
 
+    public async Task<Rent?> FindCurrentUserRentAsync(Guid userId)
+    {
+        return await _dbContext
+            .Set<Rent>()
+            .Include(r => r.Plan)
+            .Include(r => r.Bike)
+            .Include(r => r.User)
+                .ThenInclude(r => r.DeliveryDetail)
+            .FirstOrDefaultAsync(r => r.UserId == userId && r.Status == RentStatusEnum.Leased);
+    }
+
     public async Task<bool> UserIsAbleToRentAsync(Guid userId)
     {
         return !await _dbContext

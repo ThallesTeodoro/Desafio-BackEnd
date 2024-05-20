@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Carter;
 using DesafioBackEnd.Application.Deliveryman.Register;
 using DesafioBackEnd.Application.Deliveryman.Rent;
+using DesafioBackEnd.Application.Deliveryman.ReturnRent;
 using DesafioBackEnd.Application.Deliveryman.Update;
 using DesafioBackEnd.Domain.Enums;
 using DesafioBackEnd.WebApi.Contracts;
@@ -38,6 +39,15 @@ public class Deliveryman : CarterModule
             .DisableAntiforgery();
 
         app.MapPost("/rent-bike", RentBike)
+            .RequireAuthorization(PermissionEnum.BikeRent)
+            .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created);
+
+        app.MapPost("/informe-return-date", InformReturnDate)
             .RequireAuthorization(PermissionEnum.BikeRent)
             .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)
@@ -94,5 +104,24 @@ public class Deliveryman : CarterModule
         await sender.Send(new RentCommand(Guid.Parse(authUserId), request.StartDay, request.EndDay));
 
         return Results.Created();
+    }
+
+    private async Task<IResult> InformReturnDate(
+        [FromBody] ReturnRentRequest request,
+        ISender sender,
+        HttpContext httpContext)
+    {
+        var authUserId = httpContext
+            .User
+            .Claims
+            .Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .First()
+            .Value;
+
+        var result = await sender.Send(new ReturnRentCommand(Guid.Parse(authUserId), request.PrevEndDay));
+
+        var response = new JsonResponse<ReturnRentResponse, object>(StatusCodes.Status200OK, result, null);
+
+        return Results.Ok(response);
     }
 }

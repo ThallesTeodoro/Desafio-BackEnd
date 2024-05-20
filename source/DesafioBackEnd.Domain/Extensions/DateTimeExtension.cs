@@ -27,4 +27,17 @@ public static class DateTimeExtension
             999
         );
     }
+
+    public static DateTime ConvertToDateTime(this DateOnly dateOnly)
+    {
+        return new DateTime(
+            dateOnly.Year,
+            dateOnly.Month,
+            dateOnly.Day,
+            0,
+            0,
+            0,
+            0
+        );
+    }
 }

@@ -21,18 +21,21 @@ public static class PlanSeed
                     Id = Guid.NewGuid(),
                     Days = 7,
                     Value = 30,
+                    FinePercent = 20,
                 },
                 new Plan()
                 {
                     Id = Guid.NewGuid(),
                     Days = 15,
                     Value = 28,
+                    FinePercent = 40,
                 },
                 new Plan()
                 {
                     Id = Guid.NewGuid(),
                     Days = 30,
                     Value = 22,
+                    FinePercent = 60,
                 },
             };
 

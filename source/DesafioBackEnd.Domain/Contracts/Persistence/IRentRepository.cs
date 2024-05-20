@@ -17,4 +17,11 @@ public interface IRentRepository : IRepository<Rent>
     /// <param name="userId"></param>
     /// <returns>bool</returns>
     Task<bool> UserIsAbleToRentAsync(Guid userId);
+
+    /// <summary>
+    /// Find current user rent
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>Rent | null</returns>
+    Task<Rent?> FindCurrentUserRentAsync(Guid userId);
 }

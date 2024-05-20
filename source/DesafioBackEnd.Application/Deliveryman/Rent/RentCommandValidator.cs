@@ -4,7 +4,7 @@ using DesafioBackEnd.Application.Common;
 
 namespace DesafioBackEnd.Application.Deliveryman.Rent;
 
-public class RentCommandValidator: AbstractValidator<RentCommand>
+public class RentCommandValidator : AbstractValidator<RentCommand>
 {
     public RentCommandValidator()
     {
