@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Carter;
 using DesafioBackEnd.Application.Order.AcceptOrder;
 using DesafioBackEnd.Application.Order.ListDeliverymen;
+using DesafioBackEnd.Application.Order.MarkOrderDelivery;
 using DesafioBackEnd.Application.Order.RegisterOrder;
 using DesafioBackEnd.Domain.Enums;
 using DesafioBackEnd.WebApi.Contracts;
@@ -41,7 +42,15 @@ public class Order : CarterModule
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status500InternalServerError)
-            .Produces<JsonResponse<ListDeliverymanOrderResponse, object>>(StatusCodes.Status200OK)
+            .Produces<JsonResponse<object, object>>(StatusCodes.Status200OK)
+            .WithOpenApi();
+
+        app.MapPost("/mark-as-delivered/{orderId}", MarkOrderAsDelivered)
+            .RequireAuthorization(PermissionEnum.MakeOrderDelivery)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<object, object>>(StatusCodes.Status200OK)
             .WithOpenApi();
     }
 
@@ -83,6 +92,23 @@ public class Order : CarterModule
             .Value;
 
         await sender.Send(new AcceptOrderCommand(orderId, Guid.Parse(authUserId)));
+
+        return Results.Ok();
+    }
+
+    private async Task<IResult> MarkOrderAsDelivered(
+        Guid orderId,
+        ISender sender,
+        HttpContext httpContext)
+    {
+        var authUserId = httpContext
+            .User
+            .Claims
+            .Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .First()
+            .Value;
+
+        await sender.Send(new MarkOrderDeliveryCommand(orderId, Guid.Parse(authUserId)));
 
         return Results.Ok();
     }
