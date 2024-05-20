@@ -47,7 +47,7 @@ Optei por utilizar a arquitetura baseado no conceito de Clean Architecture, fico
 
 Modelagem da base de dados:
 
-![Diagrama Entidade Relacionamento (DER)](https://github.com/thallesteodoro/desafiobackend/blob/development/der.png?raw=true)
+![Diagrama Entidade Relacionamento (DER)](https://github.com/ThallesTeodoro/Desafio-BackEnd/blob/development/der.png?raw=true)
 
 ## Setup da Aplicação
 
