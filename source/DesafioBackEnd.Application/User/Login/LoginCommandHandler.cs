@@ -22,7 +22,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
 
         if (user is null)
         {
-            throw new NotFoundException("User was not found");
+            throw new UnauthorizedException("User was not found");
         }
 
         string token = _jwtProvider.Generate(user);

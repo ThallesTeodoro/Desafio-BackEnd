@@ -29,7 +29,7 @@ public class Deliveryman : CarterModule
             .DisableAntiforgery()
             .WithOpenApi();
 
-        app.MapPatch("/{userId}", UpdateDeliverymanCnh)
+        app.MapPatch("/", UpdateDeliverymanCnh)
             .RequireAuthorization(PermissionEnum.DeliverymanRegister)
             .Produces<JsonResponse<object, object>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)
@@ -84,11 +84,18 @@ public class Deliveryman : CarterModule
     }
 
     private async Task<IResult> UpdateDeliverymanCnh(
-        Guid userId,
         IFormFile cnhImage,
-        ISender sender)
+        ISender sender,
+        HttpContext httpContext)
     {
-        await sender.Send(new UpdateDeliverymanCommand(userId, cnhImage));
+        var authUserId = httpContext
+            .User
+            .Claims
+            .Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .First()
+            .Value;
+
+        await sender.Send(new UpdateDeliverymanCommand(Guid.Parse(authUserId), cnhImage));
 
         return Results.Ok();
     }

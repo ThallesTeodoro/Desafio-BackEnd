@@ -61,7 +61,7 @@ A aplicação utiliza Docker e Docker Compose. Com isso, para executar a aplica�
 ### Executar o comando
 
 ```bash
-docker-compose up -d --build
+docker-compose up -d
 ```
 
 O comando irá subir 4 containers, sendo eles:
