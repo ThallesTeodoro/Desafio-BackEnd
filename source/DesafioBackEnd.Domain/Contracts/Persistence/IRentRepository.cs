@@ -10,4 +10,11 @@ public interface IRentRepository : IRepository<Rent>
     /// <param name="bikeId"></param>
     /// <returns>bool</returns>
     Task<bool> CheckBikeRentAsync(Guid bikeId);
+
+    /// <summary>
+    /// Inform if user is able to rent
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>bool</returns>
+    Task<bool> UserIsAbleToRentAsync(Guid userId);
 }

@@ -1,6 +1,7 @@
 using DesafioBackEnd.Application.Common;
 using DesafioBackEnd.Application.Exceptions;
 using DesafioBackEnd.Domain.Contracts.Persistence;
+using DesafioBackEnd.Domain.Enums;
 using DesafioBackEnd.Domain.Extensions;
 using FluentValidation.Results;
 using MediatR;
@@ -31,13 +32,16 @@ public class RentCommandHandler : IRequestHandler<RentCommand>
 
     public async Task Handle(RentCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(request.UserId);
-
-        // TODO: Validate if user do not have available rent
+        var user = await _userRepository.FindWithRelationshipAsync(request.UserId);
 
         if (user is null)
         {
             throw new NotFoundException("User was not found");
+        }
+
+        if (user.DeliveryDetail.CnhType == CnhTypeEnum.B || !await _rentRepository.UserIsAbleToRentAsync(request.UserId))
+        {
+            throw new ForbiddenException("User is not able to rent.");
         }
 
         var bike = await _bikeRepository.FindAvailableBikeToRentAsync();
@@ -66,6 +70,7 @@ public class RentCommandHandler : IRequestHandler<RentCommand>
             StartDay = DateOnly.FromDateTime(startDay.AddDays(1)),
             EndDay = DateOnly.FromDateTime(startDay.AddDays(plan.Days + 1)),
             PrevDay = DateOnly.FromDateTime(endDay),
+            Status = RentStatusEnum.Leased,
         };
 
         await _rentRepository.AddAsync(rent);

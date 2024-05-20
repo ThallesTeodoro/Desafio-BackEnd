@@ -8,6 +8,7 @@ public class Rent : BaseEntity
     public DateOnly StartDay { get; set; }
     public DateOnly EndDay { get; set; }
     public DateOnly PrevDay { get; set; }
+    public short Status { get; set; }
 
     public Bike Bike { get; set; }
     public Plan Plan { get; set; }

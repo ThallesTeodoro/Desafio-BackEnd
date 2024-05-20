@@ -1,6 +1,7 @@
 using DesafioBackEnd.Domain.Contracts.Persistence;
 using DesafioBackEnd.Domain.Dtos;
 using DesafioBackEnd.Domain.Entities;
+using DesafioBackEnd.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace DesafioBackEnd.Infrastructure.Persistence.Repositories;
@@ -30,7 +31,7 @@ public class BikeRepository : Repository<Bike>, IBikeRepository
         return await _dbContext
             .Set<Bike>()
             .Include(b => b.Rents)
-            .FirstOrDefaultAsync(b => !b.Rents.Any(r => r.EndDay < DateOnly.FromDateTime(DateTime.Now.AddDays(-1))));
+            .FirstOrDefaultAsync(b => b.Rents == null || !b.Rents.Any(r => r.Status == RentStatusEnum.Leased));
     }
 
     public async Task<PaginationDto<Bike>> ListPaginatedAsync(int page, int pageSize, string? plate)

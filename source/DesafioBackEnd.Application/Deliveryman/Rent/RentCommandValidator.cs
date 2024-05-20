@@ -13,11 +13,13 @@ public class RentCommandValidator: AbstractValidator<RentCommand>
 
         RuleFor(c => c.StartDay)
             .NotEmpty()
+            .GreaterThanOrEqualTo(DateTime.Now.ResetTimeToStartOfDay())
             .Must((model, field) => field < model.EndDay)
             .WithMessage(ValidationMessages.InvalidDate());
 
         RuleFor(c => c.EndDay)
             .NotEmpty()
+            .GreaterThanOrEqualTo(DateTime.Now.ResetTimeToStartOfDay())
             .Must((model, field) => field > model.StartDay && field < model.StartDay.ResetTimeToEndOfDay().AddDays(30))
             .WithMessage(ValidationMessages.InvalidDate());
     }
