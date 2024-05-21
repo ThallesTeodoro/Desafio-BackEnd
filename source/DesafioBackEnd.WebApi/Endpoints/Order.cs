@@ -72,7 +72,7 @@ public class Order : CarterModule
         Guid orderId,
         ISender sender)
     {
-        var result = await sender.Send(new ListDeliverymanCommand(orderId));
+        var result = await sender.Send(new ListDeliverymanQuery(orderId));
 
         var response = new JsonResponse<ListDeliverymanOrderResponse, object>(StatusCodes.Status200OK, result, null);
 

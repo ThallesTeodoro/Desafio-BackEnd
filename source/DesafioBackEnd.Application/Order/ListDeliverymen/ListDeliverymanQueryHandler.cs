@@ -8,13 +8,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace DesafioBackEnd.Application.Order.ListDeliverymen;
 
-public class ListDeliverymanCommandHandler : IRequestHandler<ListDeliverymanCommand, ListDeliverymanOrderResponse>
+public class ListDeliverymanQueryHandler : IRequestHandler<ListDeliverymanQuery, ListDeliverymanOrderResponse>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IConfiguration _configuration;
     private readonly IMapper _mapper;
 
-    public ListDeliverymanCommandHandler(
+    public ListDeliverymanQueryHandler(
         IMapper mapper,
         IOrderRepository orderRepository,
         IConfiguration configuration)
@@ -24,7 +24,7 @@ public class ListDeliverymanCommandHandler : IRequestHandler<ListDeliverymanComm
         _configuration = configuration;
     }
 
-    public async Task<ListDeliverymanOrderResponse> Handle(ListDeliverymanCommand request, CancellationToken cancellationToken)
+    public async Task<ListDeliverymanOrderResponse> Handle(ListDeliverymanQuery request, CancellationToken cancellationToken)
     {
         var order = await _orderRepository.FindOrderByIdWithRelationshipAsync(request.orderId);
 
