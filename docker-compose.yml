@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+  desafiobackend.webapi:
+    image: ${DOCKER_REGISTRY-}desafiobackendwebapi
+    container_name: DesafioBackEnd.WebApi
+    build:
+      context: .
+      dockerfile: source/DesafioBackEnd.WebApi/Dockerfile
+    networks:
+      - desafiobackendnetwork
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_HTTP_PORTS=5000
+    ports:
+      - 5000:5000
+    depends_on:
+      - desafiobackend.rabbitmq
+
+  desafiobackend.database:
+    image: postgres:latest
+    container_name: DesafioBackEnd.Database
+    hostname: desafiobackend-database
+    environment:
+      - POSTGRES_DB=desafiobackend
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postegresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - desafiobackendnetwork
+
+  desafiobackend.rabbitmq:
+    image: rabbitmq:3.11.7-management
+    container_name: DesafioBackEnd.Queue
+    hostname: desafiobackend-queue
+    volumes:
+      - ./.containers/queue/data/:/var/lib/rabbitmq
+      - ./.containers/queue/log/:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: mq_user
+      RABBITMQ_DEFAULT_PASS: secret
+    ports:
+      - 25672:25672
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - desafiobackendnetwork
+
+  desafiobackend.blob-storage:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    container_name: DesafioBackEnd.BlobStorage
+    hostname: desafiobackend-blob-storage
+    volumes:
+      - ./.containers/blob-storage/data:/data
+    ports:
+      - 10000:10000
+    command: "azurite-blob --blobHost 0.0.0.0 -l /data"
+    networks:
+      - desafiobackendnetwork
+
+networks:
+  desafiobackendnetwork:
+    name: desafiobackendnetwork
+    driver: bridge

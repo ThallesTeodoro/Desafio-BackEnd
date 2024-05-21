@@ -1,0 +1,621 @@
+{
+	"info": {
+		"_postman_id": "636c2767-2d7a-448a-b4bb-cfd90f4cb439",
+		"name": "DesafioBackEnd",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8230454"
+	},
+	"item": [
+		{
+			"name": "Login Deliveryman",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.data.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"thallesmjteodoro@outlook.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.data.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"admin@desafiobackend.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Bike",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"year\": 2021,\r\n  \"type\": \"FZ-30\",\r\n  \"plate\": \"QXH5H89\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bike",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bike"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Bikes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/bike?page=1&pageSize=10&plate=qx",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bike"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "plate",
+							"value": "qx"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Bike",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"plate\": \"QXH5H87\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bike/d1837e57-c0f6-480b-801c-2af733931ed6",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bike",
+						"d1837e57-c0f6-480b-801c-2af733931ed6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Bike",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/bike/e38c589a-e337-47d0-93a3-17d262b28b60",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bike",
+						"e38c589a-e337-47d0-93a3-17d262b28b60"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Deliveryman",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cnhImage",
+							"type": "file",
+							"src": "postman-cloud:///1ef16f8c-5fb3-4590-8978-7296afa141ce"
+						},
+						{
+							"key": "name",
+							"value": "Thalles Teodoro",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "thallesmjteodoro02@outlook.com",
+							"type": "text"
+						},
+						{
+							"key": "cnpj",
+							"value": "11.000.000/0001-00",
+							"type": "text"
+						},
+						{
+							"key": "birthdate",
+							"value": "1998-08-27",
+							"type": "text"
+						},
+						{
+							"key": "cnh",
+							"value": "999999991",
+							"type": "text"
+						},
+						{
+							"key": "cnhType",
+							"value": "A+B",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/deliveryman",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"deliveryman"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rent Bike",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDay\": \"2024-05-20T10:30:46.575Z\",\r\n  \"endDay\": \"2024-05-24T10:30:46.575Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/deliveryman/rent-bike",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"deliveryman",
+						"rent-bike"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Informe Return Date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"prevEndDay\": \"2024-05-28T11:46:50.775Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/deliveryman/informe-return-date",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"deliveryman",
+						"informe-return-date"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Deliveryman",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cnhImage",
+							"type": "file",
+							"src": "postman-cloud:///1ef16f8c-5fb3-4590-8978-7296afa141ce"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/deliveryman/ecc307c7-8658-4f78-9e58-692bfbae889d",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"deliveryman",
+						"ecc307c7-8658-4f78-9e58-692bfbae889d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/user/ecc307c7-8658-4f78-9e58-692bfbae889d",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"ecc307c7-8658-4f78-9e58-692bfbae889d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Plans",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/plan",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"plan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"value\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/order",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/order/list-notified-deliverymen/406c611d-4cff-46e3-a5aa-03d2e1f8e3aa",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order",
+						"list-notified-deliverymen",
+						"406c611d-4cff-46e3-a5aa-03d2e1f8e3aa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accept Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/order/accept-order/406c611d-4cff-46e3-a5aa-03d2e1f8e3aa",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order",
+						"accept-order",
+						"406c611d-4cff-46e3-a5aa-03d2e1f8e3aa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Order As Delivered",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/order//mark-as-delivered/406c611d-4cff-46e3-a5aa-03d2e1f8e3aa",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order",
+						"",
+						"mark-as-delivered",
+						"406c611d-4cff-46e3-a5aa-03d2e1f8e3aa"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://localhost:7100",
+			"type": "string"
+		}
+	]
+}
