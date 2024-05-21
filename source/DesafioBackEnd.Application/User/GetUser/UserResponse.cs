@@ -6,5 +6,5 @@ public class UserResponse
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required string Profile { get; set; }
-    public UserDetailResponse UserDetail { get; set; }
+    public UserDetailResponse? UserDetail { get; set; }
 }

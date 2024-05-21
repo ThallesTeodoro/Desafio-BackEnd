@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\source\DesafioBackEnd.Application\DesafioBackEnd.Application.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS8618</NoWarn>
+  </PropertyGroup>
+
 </Project>

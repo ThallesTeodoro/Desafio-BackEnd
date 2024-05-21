@@ -5,6 +5,6 @@ namespace DesafioBackEnd.Application.Order.ListDeliverymen;
 
 public class ListDeliverymanOrderResponse
 {
-    public OrderResponse Order { get; set; }
-    public List<DeliverymanResponse> Deliverymen { get; set; }
+    public required OrderResponse Order { get; set; }
+    public List<DeliverymanResponse> Deliverymen { get; set; } = new List<DeliverymanResponse>();
 }

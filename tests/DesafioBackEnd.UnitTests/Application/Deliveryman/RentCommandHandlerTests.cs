@@ -1,4 +1,3 @@
-using Bogus.DataSets;
 using DesafioBackEnd.Application.Deliveryman.Rent;
 using DesafioBackEnd.Application.Exceptions;
 using DesafioBackEnd.Domain.Contracts.Persistence;
