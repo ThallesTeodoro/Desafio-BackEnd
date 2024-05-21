@@ -23,6 +23,7 @@ Seu objetivo é criar uma aplicação para gerenciar aluguel de motos e entregad
 - Docker e Docker-Compose
 - XUnit
 - Fluent Assertions
+- Moq
 
 ## Arquitetura e Modelagem de Dados
 
