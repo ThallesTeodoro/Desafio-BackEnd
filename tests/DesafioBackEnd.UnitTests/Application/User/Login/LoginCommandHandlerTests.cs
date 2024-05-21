@@ -35,9 +35,9 @@ public class LoginCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_Should_ReturnTheToken_WhenUserWasFound()
+    public async Task Handle_Should_ReturnTheToken_WhenUserWasFound()
     {
-        var email = "usernotfound@email.com";
+        var email = "user@email.com";
         var command = new LoginCommand(email);
         var user = new Domain.Entities.User()
         {
@@ -61,9 +61,8 @@ public class LoginCommandHandlerTests
 
         var handler = new LoginCommandHandler(_userRepositoryMock.Object, _jwtProviderMock.Object);
 
-        Func<Task> func = async () => await handler.Handle(command, default);
-
-        func.Should().ThrowAsync<UnauthorizedException>();
+        var response = await handler.Handle(command, default);
+        response.Should().NotBeNull();
     }
 
     private string RandomToken(int length)
