@@ -5,7 +5,7 @@ using DesafioBackEnd.Domain.Contracts.Persistence;
 using FluentAssertions;
 using Moq;
 
-namespace DesafioBackEnd.UnitTests.Application.User.Login;
+namespace DesafioBackEnd.UnitTests.Application.User;
 
 public class LoginCommandHandlerTests
 {

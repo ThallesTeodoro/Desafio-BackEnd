@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DesafioBackEnd.Application.Bikes.Create;
 using DesafioBackEnd.Domain.Contracts.Persistence;
 using Moq;
 
-namespace DesafioBackEnd.UnitTests.Application.Bike.Create;
+namespace DesafioBackEnd.UnitTests.Application.Bike;
 
 public class CreateBikeCommandHandlerTests
 {

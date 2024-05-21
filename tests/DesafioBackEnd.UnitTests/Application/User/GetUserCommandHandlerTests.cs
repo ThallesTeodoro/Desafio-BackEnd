@@ -6,7 +6,7 @@ using DesafioBackEnd.Domain.Enums;
 using FluentAssertions;
 using Moq;
 
-namespace DesafioBackEnd.UnitTests.Application.User.GetUser;
+namespace DesafioBackEnd.UnitTests.Application.User;
 
 public class GetUserCommandHandlerTests
 {
