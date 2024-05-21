@@ -4,7 +4,6 @@ using DesafioBackEnd.Domain.Contracts.Persistence;
 using DesafioBackEnd.Domain.Contracts.Services;
 using DesafioBackEnd.Domain.Enums;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 
@@ -39,7 +38,7 @@ public class RegisterDeliverymanCommandHandlerTests
             new DateOnly(1999, 1, 1),
             "999999990",
             "A+B",
-            CreateImage());
+            ImageHelper.CreateImage());
 
         var baseImageUrl = "http://127.0.0.1:10000/devstoreaccount1/desafiobackend";
         var imageName = "cnh/filename.jpg";
@@ -104,20 +103,5 @@ public class RegisterDeliverymanCommandHandlerTests
         _unitOfWorkMock.Verify(
             x => x.SaveChangesAsync(default),
             Times.Once);
-    }
-
-    private IFormFile CreateImage()
-    {
-         //Setup mock file using a memory stream
-        var fileName = "test.jpg";
-        var stream = new MemoryStream();
-        stream.Position = 0;
-
-        //create FormFile with desired data
-        return new FormFile(stream, 0, stream.Length, "id_from_form", fileName)
-        {
-            Headers = new HeaderDictionary(),
-            ContentType = "image/jpeg"
-        };
     }
 }
