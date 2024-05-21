@@ -42,7 +42,7 @@ public class RegisterOrderCommandHandler : IRequestHandler<RegisterOrderCommand,
         await _orderRepository.AddAsync(order);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var availableDeliveryman = await _userRepository.GetAvailableDeliveryman();
+        var availableDeliveryman = await _userRepository.GetAvailableDeliverymanAsync();
 
         foreach (var deliveryman in availableDeliveryman)
         {

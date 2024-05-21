@@ -50,7 +50,7 @@ public class UserRepository : Repository<User>, IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task<List<User>> GetAvailableDeliveryman()
+    public async Task<List<User>> GetAvailableDeliverymanAsync()
     {
         return await _dbContext
             .Set<User>()

@@ -36,5 +36,5 @@ public interface IUserRepository : IRepository<User>
     /// Get available deliveryman
     /// </summary>
     /// <returns>List<User></returns>
-    Task<List<User>> GetAvailableDeliveryman();
+    Task<List<User>> GetAvailableDeliverymanAsync();
 }
