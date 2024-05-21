@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Carter;
 using DesafioBackEnd.Application.Deliveryman.Register;
 using DesafioBackEnd.Application.Deliveryman.Rent;
+using DesafioBackEnd.Application.Deliveryman.ReturnBike;
 using DesafioBackEnd.Application.Deliveryman.ReturnRent;
 using DesafioBackEnd.Application.Deliveryman.Update;
 using DesafioBackEnd.Domain.Enums;
@@ -14,7 +15,7 @@ namespace DesafioBackEnd.WebApi.Endpoints;
 public class Deliveryman : CarterModule
 {
     public Deliveryman()
-        : base ("/deliveryman")
+        : base("/deliveryman")
     {
     }
 
@@ -57,7 +58,16 @@ public class Deliveryman : CarterModule
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
-            .Produces<JsonResponse<DeliverymanResponse, object>>(StatusCodes.Status201Created)
+            .Produces<JsonResponse<ReturnRentResponse, object>>(StatusCodes.Status201Created)
+            .WithOpenApi();
+
+        app.MapPost("/return-bike", ReturnBike)
+            .RequireAuthorization(PermissionEnum.BikeRent)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status500InternalServerError)
+            .Produces<JsonResponse<ReturnRentResponse, object>>(StatusCodes.Status201Created)
             .WithOpenApi();
     }
 
@@ -130,6 +140,24 @@ public class Deliveryman : CarterModule
             .Value;
 
         var result = await sender.Send(new ReturnRentCommand(Guid.Parse(authUserId), request.PrevEndDay));
+
+        var response = new JsonResponse<ReturnRentResponse, object>(StatusCodes.Status200OK, result, null);
+
+        return Results.Ok(response);
+    }
+
+    private async Task<IResult> ReturnBike(
+        ISender sender,
+        HttpContext httpContext)
+    {
+        var authUserId = httpContext
+            .User
+            .Claims
+            .Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .First()
+            .Value;
+
+        var result = await sender.Send(new ReturnBikeCommand(Guid.Parse(authUserId)));
 
         var response = new JsonResponse<ReturnRentResponse, object>(StatusCodes.Status200OK, result, null);
 
