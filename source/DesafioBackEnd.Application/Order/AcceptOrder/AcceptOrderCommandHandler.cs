@@ -27,7 +27,7 @@ public class AcceptOrderCommandHandler : IRequestHandler<AcceptOrderCommand>
 
         var userIsAbleToAccept = order.Notifications.Any(n => n.UserId == request.userId);
 
-        if (!userIsAbleToAccept || order.Status == OrderStatusEnum.Accepted)
+        if (!userIsAbleToAccept || order.Status != OrderStatusEnum.Available)
         {
             throw new ForbiddenException("User is not able to accept the order.");
         }

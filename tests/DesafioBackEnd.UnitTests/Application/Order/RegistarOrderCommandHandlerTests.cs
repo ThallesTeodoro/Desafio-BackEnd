@@ -1,9 +1,7 @@
 using AutoMapper;
-using Bogus;
 using DesafioBackEnd.Application.Order.RegisterOrder;
 using DesafioBackEnd.Domain.Contracts.EventBus;
 using DesafioBackEnd.Domain.Contracts.Persistence;
-using DesafioBackEnd.Domain.Entities;
 using DesafioBackEnd.Domain.Enums;
 using FluentAssertions;
 using Moq;
