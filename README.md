@@ -24,6 +24,7 @@ Seu objetivo é criar uma aplicação para gerenciar aluguel de motos e entregad
 - XUnit
 - Fluent Assertions
 - Moq
+- Bogus
 
 ## Arquitetura e Modelagem de Dados
 
